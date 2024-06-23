@@ -68,8 +68,10 @@ const io = new SocketIOServer(server, {
 
 const roomUserCount = {};
 
-io.on('connection', (socket) => {
-    console.log('New client connected');
+// Namespace for world chat
+const worldChatNamespace = io.of('/worldchat');
+worldChatNamespace.on('connection', (socket) => {
+    console.log('New client connected to world chat');
 
     socket.on('joinRoom', ({ roomName }) => {
         socket.join(roomName);
@@ -82,13 +84,13 @@ io.on('connection', (socket) => {
         roomUserCount[roomName] += 1;
 
         console.log(`Updated user count for room ${roomName}: ${roomUserCount[roomName]}`);
-        io.to(roomName).emit('userCountUpdate', roomUserCount[roomName]);
-        io.emit('trendingUserCountUpdate', { roomName, userCount: roomUserCount[roomName] });
+        worldChatNamespace.to(roomName).emit('userCountUpdate', roomUserCount[roomName]);
+        worldChatNamespace.emit('trendingUserCountUpdate', { roomName, userCount: roomUserCount[roomName] });
     });
 
     socket.on('sendMessage', ({ roomName, message }) => {
         console.log(`Message received in room ${roomName}: ${message.text}`);
-        io.to(roomName).emit('message', message);
+        worldChatNamespace.to(roomName).emit('message', message);
     });
 
     socket.on('disconnect', () => {
@@ -97,13 +99,50 @@ io.on('connection', (socket) => {
         if (roomName && roomUserCount[roomName]) {
             roomUserCount[roomName] -= 1;
             console.log(`Updated user count for room ${roomName}: ${roomUserCount[roomName]}`);
-            io.to(roomName).emit('userCountUpdate', roomUserCount[roomName]);
-            io.emit('trendingUserCountUpdate', { roomName, userCount: roomUserCount[roomName] });
+            worldChatNamespace.to(roomName).emit('userCountUpdate', roomUserCount[roomName]);
+            worldChatNamespace.emit('trendingUserCountUpdate', { roomName, userCount: roomUserCount[roomName] });
         }
     });
 });
 
-const PORT = process.env.SERVER_PORT || 3000;
+// Namespace for private rooms
+const privateRoomsNamespace = io.of('/privaterooms');
+privateRoomsNamespace.on('connection', (socket) => {
+    console.log('New client connected to private rooms');
+
+    socket.on('joinRoom', ({ roomName }) => {
+        socket.join(roomName);
+        console.log(`Client joined room: ${roomName}`);
+        socket.roomName = roomName;
+
+        if (!roomUserCount[roomName]) {
+            roomUserCount[roomName] = 0;
+        }
+        roomUserCount[roomName] += 1;
+
+        console.log(`Updated user count for room ${roomName}: ${roomUserCount[roomName]}`);
+        privateRoomsNamespace.to(roomName).emit('userCountUpdate', roomUserCount[roomName]);
+        privateRoomsNamespace.emit('trendingUserCountUpdate', { roomName, userCount: roomUserCount[roomName] });
+    });
+
+    socket.on('sendMessage', ({ roomName, message }) => {
+        console.log(`Message received in room ${roomName}: ${message.text}`);
+        privateRoomsNamespace.to(roomName).emit('message', message);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+        const roomName = socket.roomName;
+        if (roomName && roomUserCount[roomName]) {
+            roomUserCount[roomName] -= 1;
+            console.log(`Updated user count for room ${roomName}: ${roomUserCount[roomName]}`);
+            privateRoomsNamespace.to(roomName).emit('userCountUpdate', roomUserCount[roomName]);
+            privateRoomsNamespace.emit('trendingUserCountUpdate', { roomName, userCount: roomUserCount[roomName] });
+        }
+    });
+});
+
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
