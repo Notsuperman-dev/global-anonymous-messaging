@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Global Anonymous Messaging</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Settings</h1>
+        <span id="usernameDisplay" class="username-display"></span>
+    </header>
+    <main>
+        <div id="message" class="message" style="display: none;"></div>
+        <form id="changeUsernameForm">
+            <label for="new-username">Change Username:</label>
+            <input type="text" id="new-username" name="new-username" required>
+            <button type="submit">Change</button>
+        </form>
+        <form id="changePasswordForm">
+            <label for="current-password">Current Password:</label>
+            <input type="password" id="current-password" name="current-password" required>
+            <label for="new-password">New Password:</label>
+            <input type="password" id="new-password" name="new-password" required>
+            <button type="submit">Change</button>
+        </form>
+    </main>
+    <footer>
+        <ul class="footer-menu">
+            <li><a href="mainmenu.html">Back to Main Menu</a></li>
+        </ul>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>

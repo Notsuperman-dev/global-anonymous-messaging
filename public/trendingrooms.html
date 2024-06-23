@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending Rooms</title>
+    <link rel="stylesheet" href="css/trendingrooms.css">
+</head>
+<body>
+    <header>
+        <h1>Trending Rooms</h1>
+    </header>
+    <main>
+        <div id="roomsList"></div>
+    </main>
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="rooms.html">User's Rooms</a></li>
+                <li><a href="friends.html">Friends</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </nav>
+    </footer>
+    <!-- Include Axios from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Include Socket.IO client library from CDN -->
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <!-- Include axiosClient.js and trendingrooms.js as modules -->
+    <script type="module" src="js/axiosClient.js"></script>
+    <script type="module" src="js/trendingrooms.js"></script>
+</body>
+</html>

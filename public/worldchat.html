@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Chat - Global Anonymous Messaging</title>
+    <link rel="stylesheet" href="css/worldchat.css">
+</head>
+<body>
+    <header>
+        <h1>World Chat</h1>
+    </header>
+    <main id="chatContainer">
+        <div id="messages"></div>
+        <form id="messageForm">
+            <input type="text" id="messageInput" placeholder="Type your message" required>
+            <button type="submit">Send</button>
+        </form>
+    </main>
+    <nav>
+        <ul>
+            <li><a href="rooms.html">User's Rooms</a></li>
+            <li><a href="friends.html">Friends</a></li>
+            <li><a href="settings.html">Settings</a></li>
+        </ul>
+    </nav>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="js/worldchat.js"></script>
+</body>
+</html>

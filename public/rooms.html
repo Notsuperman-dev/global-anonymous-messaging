@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Chat</title>
+    <link rel="stylesheet" href="/css/rooms.css">
+</head>
+<body>
+    <header>
+        <h1 id="roomName">Room Name</h1>
+        <p id="userCount">Users online: 0</p>
+    </header>
+    <main>
+        <div id="messagesContainer" class="messages-container">
+            <!-- Messages will be appended here -->
+        </div>
+        <form id="messageForm">
+            <input type="text" id="messageInput" placeholder="Type your message" required>
+            <button type="submit">Send</button>
+        </form>
+    </main>
+    <nav>
+        <ul>
+            <li><a href="rooms.html">User's Rooms</a></li>
+            <li><a href="friends.html">Friends</a></li>
+            <li><a href="settings.html">Settings</a></li>
+        </ul>
+    </nav>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="/js/rooms.js"></script>
+</body>
+</html>
